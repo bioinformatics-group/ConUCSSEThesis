@@ -1,0 +1,32 @@
+\ProvidesPackage{conucssethesis}[2020/03/05 Concordia University CSSE Thesis Package]
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{xifthen}
+\RequirePackage{etoolbox}
+\newcounter{makexRefFE}%
+\newcounter{makexRefEC}%
+\newcommand{\makexRef}[3]{%
+\expandafter\providecommand\csname #1\endcsname[1]{}%
+\expandafter\renewcommand\csname #1\endcsname[1]{%
+\setcounter{makexRefFE}{0}%Reset this counter in case it has been used before
+\setcounter{makexRefEC}{0}%Reset this counter in case it has been used before
+\newlength{\myl}%
+\settowidth{\myl}{##1}%
+\ifthenelse{\lengthtest{\the\myl = 0pt}}%
+{??No references Passed??}%
+{%
+\forcsvlist{\stepcounter{makexRefEC}\listadd\namelist}{##1}%
+    \ifnumequal{\number\value{makexRefEC}}{1}{#2 }{#3 }%
+    \renewcommand*{\do}[1]{%
+        \ifnumequal{\number\value{makexRefFE}}{0}%
+            {\addtocounter{makexRefFE}{1}\addtocounter{makexRefEC}{-1}\ref{####1}}%
+            {\ifnumequal{\number\value{makexRefEC}}{1}
+                { and }%
+                {\addtocounter{makexRefEC}{-1}, }%
+        \ref{####1}}}%
+\dolistloop{\namelist}%
+\renewcommand\namelist{}%Let this list be reused
+\let\myl\relax%Let this length be redefined
+}}}%
+\makexRef{xf}{Figure}{Figures}
+\makexRef{xt}{Table}{Tables}
+\makexRef{xe}{Equation}{Equations}
