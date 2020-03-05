@@ -7,6 +7,7 @@ A repo containing useful thesis packages
 \makexRef{xf}{Figure}{Figures}
 \makexRef{xt}{Table}{Tables}
 \makexRef{xe}{Equation}{Equations}
+\makexRef{xth}{Theorem}{Theorems}
 ````
 
 This allows us to reference one or more figures, as in the following example:
